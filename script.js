@@ -37,6 +37,7 @@
 // } catch(error) {
 //     console.log("Error during commit process:", error);
 // }
+
 const { execSync } = require("child_process");
 const fs = require("fs");
 
@@ -52,23 +53,26 @@ function random() {
 }
 
 function generateRandomDate() {
-    const randomDay = Math.floor(Math.random() * 31) + 1; // Random day in December (1-31)
-    const randomHour = Math.floor(Math.random() * 24);  // Random hour (0-23)
-    const randomMinute = Math.floor(Math.random() * 60); // Random minute (0-59)
-    const randomSecond = Math.floor(Math.random() * 60); // Random second (0-59)
+    const randomMonth = Math.floor(Math.random() * 12);
+    const randomDay = Math.floor(Math.random() * 31) + 1;
+    const randomHour = Math.floor(Math.random() * 24);
+    const randomMinute = Math.floor(Math.random() * 60);
+    const randomSecond = Math.floor(Math.random() * 60);
 
-    const date = new Date(2023, 11, randomDay, randomHour, randomMinute, randomSecond); // December is month 11 (0-indexed)
+    const daysInMonth = new Date(2022, randomMonth + 1, 0).getDate();
+    const validDay = randomDay <= daysInMonth ? randomDay : daysInMonth;
     
-    // Format it to "Tue Dec 31 23:00:00 2023 +0300"
-    const dayOfWeek = date.toLocaleString('en-US', { weekday: 'short' });  // e.g., 'Tue'
-    const month = date.toLocaleString('en-US', { month: 'short' });  // e.g., 'Dec'
-    const dayOfMonth = date.getDate();  // e.g., 31
-    const year = date.getFullYear();  // 2023
-    const hours = String(date.getHours()).padStart(2, '0');  // e.g., '23'
-    const minutes = String(date.getMinutes()).padStart(2, '0');  // e.g., '00'
-    const seconds = String(date.getSeconds()).padStart(2, '0');  // e.g., '00'
+    const date = new Date(2022, randomMonth, validDay, randomHour, randomMinute, randomSecond);
+
+    const dayOfWeek = date.toLocaleString('en-US', { weekday: 'short' });
+    const month = date.toLocaleString('en-US', { month: 'short' });
+    const dayOfMonth = date.getDate();
+    const year = date.getFullYear();
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
     
-    const timezoneOffset = "+0300"; // Fixed timezone offset (+0300 for your specified time)
+    const timezoneOffset = "+0300";
 
     return `${dayOfWeek} ${month} ${dayOfMonth} ${hours}:${minutes}:${seconds} ${year} ${timezoneOffset}`;
 }
@@ -96,7 +100,7 @@ function push() {
 }
 
 try {
-    for (let i = 1; i <= 600; i++) {
+    for (let i = 1; i <= 786; i++) {
         Commit(i);
     }
     // push();
