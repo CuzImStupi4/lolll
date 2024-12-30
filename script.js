@@ -20,15 +20,25 @@ function Commit(index) {
 }
 
 function push() {
-    execSync("git push", { stdio: "inherit" });
+    try {
+        execSync("git push", { stdio: "inherit" });
+        console.log("Push successful");
+    } catch (error) {
+        console.log("Error pushing to remote repository:", error);
+    }
 }
 
 try {
-    for (let i = 1; i <= 200; i++) {
+    for (let i = 1; i <= 5; i++) {
         Commit(i);
+        // Adding a small delay (e.g., 1 second) between commits to avoid overwhelming Git
+        if (i % 10 === 0) {
+            console.log(`Committed ${i} files, waiting before next commit...`);
+            setTimeout(() => {}, 1000); // Delay between commits
+        }
     }
     push();
-    console.log("commited everything");
+    console.log("Committed everything");
 } catch(error) {
-    console.log(error);
+    console.log("Error during commit process:", error);
 }
