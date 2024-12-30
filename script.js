@@ -29,7 +29,7 @@ function push() {
 }
 
 try {
-    for (let i = 1; i <= 45; i++) {
+    for (let i = 1; i <= 10; i++) {
         Commit(i);
     }
     // push();
