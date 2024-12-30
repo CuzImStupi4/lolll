@@ -13,7 +13,7 @@ function random() {
 
 function Commit(index) {
     const filename = `file-${index}.txt`;
-    fs.writeFileSync(filename, `random file #${index}, time ${Date.now()}`);
+    fs.writeFileSync(filename, `${random()}git push origin master #${index}, time ${Date.now()}`);
     execSync(`git add ${filename}`);
     execSync(`git commit -m "Add ${random()}"`);
     console.log(`Commit ${filename}`);
