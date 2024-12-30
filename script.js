@@ -24,7 +24,7 @@ function push() {
 }
 
 try {
-    for (let i = 1; i <= 78; i++) {
+    for (let i = 1; i <= 200; i++) {
         Commit(i);
     }
     push();
