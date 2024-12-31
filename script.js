@@ -96,7 +96,7 @@ function push() {
 }
 
 try {
-    for (let i = 1; i <= 30; i++) {
+    for (let i = 1; i <= 600; i++) {
         Commit(i);
     }
     // push();
