@@ -38,12 +38,13 @@
 //     console.log("Error during commit process:", error);
 // }
 
-
 const { execSync } = require("child_process");
 const fs = require("fs");
 
 function random() {
     const msg = [
+        "Hallo",
+        "Hello",
         "Refactored function random()",
         "Optimized commit message generator",
         "Fixed bug in Commit function"
@@ -52,14 +53,17 @@ function random() {
 }
 
 function generateRandomDate() {
-    // Random day in December 2023
-    const randomDay = Math.floor(Math.random() * 31) + 1; // December has 31 days
-    const randomHour = Math.floor(Math.random() * 24);  // Random hour 0-23
-    const randomMinute = Math.floor(Math.random() * 60); // Random minute 0-59
-    const randomSecond = Math.floor(Math.random() * 60); // Random second 0-59
+    const randomDay = Math.floor(Math.random() * 31) + 1; // Random day in December (1-31)
+    const randomHour = Math.floor(Math.random() * 24);  // Random hour (0-23)
+    const randomMinute = Math.floor(Math.random() * 60); // Random minute (0-59)
+    const randomSecond = Math.floor(Math.random() * 60); // Random second (0-59)
 
-    const date = new Date(2023, 11, randomDay, randomHour, randomMinute, randomSecond); // month is 0-indexed
-    return date.toLocaleString('en-US', { timeZone: 'Asia/Amman' }).replace(', ', ''); // Format: 'Tue Dec 31 23:00:00 2023 +0300'
+    const date = new Date(2023, 11, randomDay, randomHour, randomMinute, randomSecond); // December is month 11 (0-indexed)
+    
+    // Formatting the date to the required format: "Tue Dec 31 23:00:00 2023 +0300"
+    const formattedDate = date.toLocaleString('en-US', { timeZone: 'Asia/Amman' }).replace(', ', '');
+    
+    return formattedDate;
 }
 
 function generateCommitMessage(index) {
@@ -85,7 +89,7 @@ function push() {
 }
 
 try {
-    for (let i = 1; i <= 15; i++) {
+    for (let i = 1; i <= 303; i++) {
         Commit(i);
     }
     // push();
