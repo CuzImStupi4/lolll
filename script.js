@@ -37,7 +37,6 @@
 // } catch(error) {
 //     console.log("Error during commit process:", error);
 // }
-
 const { execSync } = require("child_process");
 const fs = require("fs");
 
@@ -60,10 +59,18 @@ function generateRandomDate() {
 
     const date = new Date(2023, 11, randomDay, randomHour, randomMinute, randomSecond); // December is month 11 (0-indexed)
     
-    // Formatting the date to the required format: "Tue Dec 31 23:00:00 2023 +0300"
-    const formattedDate = date.toLocaleString('en-US', { timeZone: 'Asia/Amman' }).replace(', ', '');
+    // Format it to "Tue Dec 31 23:00:00 2023 +0300"
+    const dayOfWeek = date.toLocaleString('en-US', { weekday: 'short' });  // e.g., 'Tue'
+    const month = date.toLocaleString('en-US', { month: 'short' });  // e.g., 'Dec'
+    const dayOfMonth = date.getDate();  // e.g., 31
+    const year = date.getFullYear();  // 2023
+    const hours = String(date.getHours()).padStart(2, '0');  // e.g., '23'
+    const minutes = String(date.getMinutes()).padStart(2, '0');  // e.g., '00'
+    const seconds = String(date.getSeconds()).padStart(2, '0');  // e.g., '00'
     
-    return formattedDate;
+    const timezoneOffset = "+0300"; // Fixed timezone offset (+0300 for your specified time)
+
+    return `${dayOfWeek} ${month} ${dayOfMonth} ${hours}:${minutes}:${seconds} ${year} ${timezoneOffset}`;
 }
 
 function generateCommitMessage(index) {
@@ -75,7 +82,7 @@ function Commit(index) {
     fs.writeFileSync(filename, `${random()} - Code refactored and updated, time ${Date.now()}`);
     const commitDate = generateRandomDate();
     execSync(`git add ${filename}`);
-    execSync(`git commit --date="${commitDate}" -m "${generateCommitMessage(index)}"`);
+    execSync(`git commit --date="${commitDate}" -m "#geil"`);
     console.log(`Commit ${filename} at ${commitDate}`);
 }
 
@@ -89,7 +96,7 @@ function push() {
 }
 
 try {
-    for (let i = 1; i <= 303; i++) {
+    for (let i = 1; i <= 30; i++) {
         Commit(i);
     }
     // push();
