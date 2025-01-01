@@ -59,10 +59,12 @@ function generateRandomDate() {
     const randomMinute = Math.floor(Math.random() * 60);
     const randomSecond = Math.floor(Math.random() * 60);
 
-    const daysInMonth = new Date(2022, randomMonth + 1, 0).getDate();
+    const daysInMonth = new Date(Datee, randomMonth + 1, 0).getDate();
     const validDay = randomDay <= daysInMonth ? randomDay : daysInMonth;
     
-    const date = new Date(2022, randomMonth, validDay, randomHour, randomMinute, randomSecond);
+    const Datee = 2021
+
+    const date = new Date(Datee, randomMonth, validDay, randomHour, randomMinute, randomSecond);
 
     const dayOfWeek = date.toLocaleString('en-US', { weekday: 'short' });
     const month = date.toLocaleString('en-US', { month: 'short' });
