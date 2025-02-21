@@ -43,11 +43,9 @@ const fs = require("fs");
 
 function random() {
     const msg = [
-        "Hallo",
-        "Hello",
-        "Refactored function random()",
-        "Optimized commit message generator",
-        "Fixed bug in Commit function"
+        "Procoder",
+        "yoyo",
+        "Insert Random Message here",
     ];
     return msg[Math.floor(Math.random() * msg.length)];
 }
@@ -59,12 +57,12 @@ function generateRandomDate() {
     const randomMinute = Math.floor(Math.random() * 60);
     const randomSecond = Math.floor(Math.random() * 60);
 
-    const daysInMonth = new Date(2022, randomMonth + 1, 0).getDate();
+    const daysInMonth = new Date(2006, randomMonth + 1, 0).getDate();
     const validDay = randomDay <= daysInMonth ? randomDay : daysInMonth;
     
-    const Datee = 2022
+    const Datee = 2006
 
-    const date = new Date(2022, randomMonth, validDay, randomHour, randomMinute, randomSecond);
+    const date = new Date(2006, randomMonth, validDay, randomHour, randomMinute, randomSecond);
 
     const dayOfWeek = date.toLocaleString('en-US', { weekday: 'short' });
     const month = date.toLocaleString('en-US', { month: 'short' });
@@ -102,7 +100,7 @@ function push() {
 }
 
 try {
-    for (let i = 1; i <= 336; i++) {
+    for (let i = 1; i <= 1204; i++) {
         Commit(i);
     }
     // push();
