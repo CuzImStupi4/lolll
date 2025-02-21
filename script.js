@@ -25,4 +25,4 @@ const nonstopCommits = (start, end) => {
     }, 0);
 };
 
-nonstopCommits(1, 3231);
+nonstopCommits(1, 234);
