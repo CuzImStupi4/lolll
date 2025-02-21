@@ -5,7 +5,7 @@ const msgs = ["Procoder", "yoyo", "Insert Random Message here"];
 const random = () => msgs[Math.random() * msgs.length | 0];
 
 const generateRandomDate = () => {
-    const d = new Date(2006, Math.random() * 12 | 0, Math.random() * 28 + 1, Math.random() * 24, Math.random() * 60, Math.random() * 60);
+    const d = new Date(1971, Math.random() * 12 | 0, Math.random() * 28 + 1, Math.random() * 24, Math.random() * 60, Math.random() * 60);
     return `${d.toDateString().split(" ").slice(0, 3).join(" ")} ${d.toTimeString().split(" ")[0]} ${d.getFullYear()} +0300`;
 };
 
@@ -16,11 +16,13 @@ const Commit = i => {
     execSync(`git commit --date="${generateRandomDate()}" -m "#geil"`);
 };
 
-const parallelCommits = async (start, end, batchSize = 10) => {
-    for (let i = start; i <= end; i += batchSize) {
-        await Promise.all(Array.from({ length: batchSize }, (_, j) => i + j <= end && Commit(i + j)));
-        console.log(`Committed ${Math.min(batchSize, end - i + 1)} commits`);
-    }
+const nonstopCommits = (start, end) => {
+    let i = start;
+    const interval = setInterval(() => {
+        if (i > end) return clearInterval(interval);
+        Commit(i++);
+        console.log(`Commit ${i}`);
+    }, 0);
 };
 
-parallelCommits(1, 206).then(() => console.log("Committed everything")).catch(e => console.log("Error:", e));
+nonstopCommits(1, 3231);
