@@ -1,110 +1,26 @@
-// const { execSync } = require("child_process");
-// const fs = require("fs");
-
-// function random() {
-//     const msg = [
-//         "Hallo",
-//         "Hello",
-//         "I watch BastiGHG",
-//         "787"
-//     ];
-//     return msg[Math.floor(Math.random() * msg.length)];
-// }
-
-// function Commit(index) {
-//     const filename = `file-${index}.txt`;
-//     fs.writeFileSync(filename, `${random()}git push origin master #${index}, time ${Date.now()}`);
-//     execSync(`git add ${filename}`);
-//     execSync(`git commit -m "Add ${random()}"`);
-//     console.log(`Commit ${filename}`);
-// }
-
-// function push() {
-//     try {
-//         execSync("git push origin main", { stdio: "inherit" });
-//         console.log("Push successful");
-//     } catch (error) {
-//         console.log("Error pushing to remote repository:", error);
-//     }
-// }
-
-// try {
-//     for (let i = 1; i <= 303; i++) {
-//         Commit(i);
-//     }
-//     // push();
-//     console.log("Committed everything");
-// } catch(error) {
-//     console.log("Error during commit process:", error);
-// }
-
 const { execSync } = require("child_process");
 const fs = require("fs");
 
-function random() {
-    const msg = [
-        "Procoder",
-        "yoyo",
-        "Insert Random Message here",
-    ];
-    return msg[Math.floor(Math.random() * msg.length)];
-}
+const msgs = ["Procoder", "yoyo", "Insert Random Message here"];
+const random = () => msgs[Math.random() * msgs.length | 0];
 
-function generateRandomDate() {
-    const randomMonth = Math.floor(Math.random() * 12);
-    const randomDay = Math.floor(Math.random() * 31) + 1;
-    const randomHour = Math.floor(Math.random() * 24);
-    const randomMinute = Math.floor(Math.random() * 60);
-    const randomSecond = Math.floor(Math.random() * 60);
+const generateRandomDate = () => {
+    const d = new Date(2006, Math.random() * 12 | 0, Math.random() * 28 + 1, Math.random() * 24, Math.random() * 60, Math.random() * 60);
+    return `${d.toDateString().split(" ").slice(0, 3).join(" ")} ${d.toTimeString().split(" ")[0]} ${d.getFullYear()} +0300`;
+};
 
-    const daysInMonth = new Date(2006, randomMonth + 1, 0).getDate();
-    const validDay = randomDay <= daysInMonth ? randomDay : daysInMonth;
-    
-    const Datee = 2006
+const Commit = i => {
+    const f = `file-${i}.txt`;
+    fs.writeFileSync(f, `${random()} - ${Date.now()}`);
+    execSync(`git add ${f}`);
+    execSync(`git commit --date="${generateRandomDate()}" -m "#geil"`);
+};
 
-    const date = new Date(2006, randomMonth, validDay, randomHour, randomMinute, randomSecond);
-
-    const dayOfWeek = date.toLocaleString('en-US', { weekday: 'short' });
-    const month = date.toLocaleString('en-US', { month: 'short' });
-    const dayOfMonth = date.getDate();
-    const year = date.getFullYear();
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
-    const seconds = String(date.getSeconds()).padStart(2, '0');
-    
-    const timezoneOffset = "+0300";
-
-    return `${dayOfWeek} ${month} ${dayOfMonth} ${hours}:${minutes}:${seconds} ${year} ${timezoneOffset}`;
-}
-
-function generateCommitMessage(index) {
-    return `${random()} - Refactored function to improve efficiency #${index}`;
-}
-
-function Commit(index) {
-    const filename = `file-${index}.txt`;
-    fs.writeFileSync(filename, `${random()} - Code refactored and updated, time ${Date.now()}`);
-    const commitDate = generateRandomDate();
-    execSync(`git add ${filename}`);
-    execSync(`git commit --date="${commitDate}" -m "#geil"`);
-    console.log(`Commit ${filename} at ${commitDate}`);
-}
-
-function push() {
-    try {
-        execSync("git push origin main", { stdio: "inherit" });
-        console.log("Push successful");
-    } catch (error) {
-        console.log("Error pushing to remote repository:", error);
+const parallelCommits = async (start, end, batchSize = 10) => {
+    for (let i = start; i <= end; i += batchSize) {
+        await Promise.all(Array.from({ length: batchSize }, (_, j) => i + j <= end && Commit(i + j)));
+        console.log(`Committed ${Math.min(batchSize, end - i + 1)} commits`);
     }
-}
+};
 
-try {
-    for (let i = 1; i <= 1204; i++) {
-        Commit(i);
-    }
-    // push();
-    console.log("Committed everything");
-} catch(error) {
-    console.log("Error during commit process:", error);
-}
+parallelCommits(1, 206).then(() => console.log("Committed everything")).catch(e => console.log("Error:", e));
